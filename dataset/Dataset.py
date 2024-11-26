@@ -22,7 +22,7 @@ def get_dataset_stats():
     std=std.tolist()
     return mean, std
 
-def CIFAR100Loaders(batch_size=64):
+def CIFAR100Loaders(batch_size=64, return_datasets=False):
     mean, std = get_dataset_stats()
     
     transform_train = tt.Compose([tt.RandomHorizontalFlip(),  
@@ -47,4 +47,7 @@ def CIFAR100Loaders(batch_size=64):
     trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=2,pin_memory=True)
     testloader = DataLoader(testset, batch_size=batch_size, pin_memory=True, num_workers=2)
     
-    return trainloader, testloader
+    if not return_datasets:
+        return trainloader, testloader
+    else:
+        return trainloader, testloader, trainset, testset
